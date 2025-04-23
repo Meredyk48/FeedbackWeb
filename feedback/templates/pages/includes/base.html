@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.org/ajax/libs/raty/2.9.0/raty.min.css">
+  </head>
+  {% include 'pages/includes/navbar.html' %}
+  <body style="background-color: #9ef2fd; opacity: 0.9">
+    {% block content %} {% endblock%}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <style>
+      #star-rating {
+          font-size: 1.5rem;
+          cursor: pointer;
+      }
+      #star-rating .bi-star-fill {
+          color: gold;
+      }
+  </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const stars = document.querySelectorAll('#star-rating i');
+      const notaInput = document.getElementById('nota');
+      const initialRating = notaInput.value ? parseInt(notaInput.value) : 0;
+      
+      function updateStars(rating) {
+          stars.forEach(s => {
+              const starRating = parseInt(s.dataset.rating);
+              if (starRating <= rating) {
+                  s.classList.remove('bi-star');
+                  s.classList.add('bi-star-fill');
+              } else {
+                  s.classList.remove('bi-star-fill');
+                  s.classList.add('bi-star');
+              }
+          });
+      }
+
+      if (initialRating > 0 && initialRating <= 5) {
+          updateStars(initialRating);
+      }
+
+      stars.forEach(star => {
+          star.addEventListener('click', function() {
+              const rating = parseInt(this.dataset.rating);
+              notaInput.value = rating;
+              updateStars(rating);
+          });
+
+          star.addEventListener('mouseover', function() {
+              const rating = parseInt(this.dataset.rating);
+              updateStars(rating);
+          });
+
+          star.addEventListener('mouseout', function() {
+              updateStars(notaInput.value ? parseInt(notaInput.value) : 0);
+          });
+      });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const ratingDisplays = document.querySelectorAll('.star-rating-display');
+
+      ratingDisplays.forEach(display => {
+          const rating = parseInt(display.dataset.rating);
+          const stars = display.querySelectorAll('i');
+
+          for (let i = 0; i < 5; i++) {
+              if (i < rating) {
+                  stars[i].classList.add('bi-star-fill', 'filled');
+              } else {
+                  stars[i].classList.add('bi-star');
+                  stars[i].classList.remove('bi-star-fill', 'filled');
+              }
+          }
+      });
+  });
+</script>
+  </body>
+  {% include 'pages/includes/footer.html' %}
+</html>

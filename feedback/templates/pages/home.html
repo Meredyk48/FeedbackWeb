@@ -1,0 +1,29 @@
+{% extends 'pages/includes/base.html' %} {% block title %}
+  Home
+{% endblock %}
+{% block content %}
+
+  <div class="container mt-5" style="background-color: #65e4fa">
+    <h1 class="text-center">Seja Bem Vindo</h1>
+    <p class="description" style="text-align: left; font-size: 24px">
+      Este é um sistema de feedback para alunos e professores. Aqui você pode visualizar e editar feedbacks de disciplinas.
+      <br />
+      <br />
+      <strong>Objetivo:</strong> O objetivo deste sistema é fornecer uma plataforma para que alunos e professores possam compartilhar feedbacks sobre as disciplinas, promovendo um ambiente de aprendizado mais colaborativo e eficaz.
+      <br />
+      <strong>Funcionalidades:</strong> O sistema permite que os alunos visualizem feedbacks de disciplinas, editem feedbacks existentes e adicionem novos feedbacks.
+      <br />
+      <strong>Como usar:</strong> Para começar, faça login no sistema. Após o login, você poderá acessar as funcionalidades disponíveis. Se você não tiver uma conta, acesse a área de cadastro abaixo para criar a sua.
+      <br />
+      <strong>Cadastro:</strong> Para se cadastrar, clique no link abaixo e preencha o formulário com suas informações.
+      <br />
+    </p>
+    <nav class="navigation" style="text-align: center">
+      <ul>
+        <li>
+          <a style="font-size: 48px" href="{% url 'register' %}">Cadastro</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+{% endblock %}

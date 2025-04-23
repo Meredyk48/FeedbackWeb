@@ -1,0 +1,35 @@
+{% extends 'pages/includes/base.html' %}
+{% block title %}
+    Editar Feedback
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <h1>Editar Avaliação</h1>
+        {% if erro_mensagem %}
+            <div class="alert alert-danger">{{ erro_mensagem }}</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nota">Nota:</label>
+                <div id="star-rating">
+                    <i class="bi bi-star" data-rating="1"></i>
+                    <i class="bi bi-star" data-rating="2"></i>
+                    <i class="bi bi-star" data-rating="3"></i>
+                    <i class="bi bi-star" data-rating="4"></i>
+                    <i class="bi bi-star" data-rating="5"></i>
+                </div>
+                <input type="hidden" id="nota" name="nota" value="{{ feedback.nota }}" required>
+                <small class="form-text text-muted">Clique nas estrelas para avaliar (1 a 5).</small>
+            </div>
+            <div class="form-group">
+                <label for="comentario">Comentário:</label>
+                <textarea class="form-control" id="comentario" name="comentario" rows="3">{{ feedback.comentario }}</textarea>
+            </div>
+            <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="{% url 'detalhe_disciplina' disciplina_pk %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

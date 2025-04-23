@@ -1,0 +1,126 @@
+{% extends 'pages/includes/base.html' %}
+{% block title %}
+Detalhe disciplina - {{ disciplinas.nome }}
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">{{ disciplinas.nome }}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Informações da Disciplina</h5>
+                    <div class="d-flex">
+                        <div class="p-2 w-100">
+                            <p class="card-text"><strong>Professor:</strong> {{ disciplinas.professor }}</p>
+                        </div>
+                        <div class="p-2 flex-shrink-1 w-25">
+                            <p class="card-text">
+                                {% if media %}
+                                <strong>Média:</strong>
+                                {{ media }}
+                                {% else %}
+                                <span class="text-muted">Sem avaliações</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        {% if disciplinas.descricao %}
+                        <div class="p-2 w-100">
+                            <p class="card-text"><strong>Descrição:</strong> {{ disciplinas.descricao }}</p>
+                        </div>
+                        {% else %}
+                        <div class="p-2 w-100">
+                            <p class="card-text"><strong>Descrição:</strong> Nenhuma descrição fornecida.</p>
+                        </div>
+                        {% endif %}
+                        <div class="p-2 flex-shrink-1">
+                            <div class="star-rating-display" data-rating="{{ media }}">
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around mt-4">
+                        {% if not usuario_feedback %}
+                        <a href="{% url 'avaliar' disciplinas.pk %}" class="btn btn-success">Avaliar Disciplina</a>
+                        {% endif %}
+                        <a href="{% url 'listagem_disciplina' %}" class="btn btn-danger">Voltar para a Listagem</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if feedbacks %}
+        <ul class="list-group mt-5">
+            {% for feedback in feedbacks %}
+            <li class="list-group-item d-flex justify-content-between">
+                <div>
+                    <div class="star-rating-display" data-rating="{{ feedback.nota }}">
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    {% if feedback.comentario %}
+                    <strong>Comentário:</strong> {{ feedback.comentario }}
+                    <br>
+                    {% endif %}
+                    <strong>usuario:</strong> {{ feedback.usuario }}
+                </div>
+                <div class="align-self-center">
+                    {% if request.user == feedback.usuario %}
+                    <a href="{% url 'editar_feedback' feedback.pk %}"
+                        class="btn btn-sm btn-outline-warning mr-2">Editar</a>
+                    <form method="post" action="{% url 'excluir_feedback' feedback.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Tem certeza que deseja excluir este feedback?')">Excluir</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="mt-3">Ainda não há avaliações para esta disciplina.</p>
+        {% endif %}
+    </div>
+</div>
+<style>
+    .star-rating-display {
+        display: flex;
+        font-size: 1.2rem;
+        color: #ccc;
+    }
+
+    .star-rating-display i {
+        margin-right: 0.2em;
+    }
+
+    .star-rating-display .bi-star-fill {
+        color: gold;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingDisplays = document.querySelectorAll('.star-rating-display');
+
+        ratingDisplays.forEach(display => {
+            const rating = parseInt(display.dataset.rating);
+            const stars = display.querySelectorAll('i');
+
+            for (let i = 0; i < stars.length; i++) {
+                if (i < rating) {
+                    stars[i].classList.add('bi-star-fill');
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

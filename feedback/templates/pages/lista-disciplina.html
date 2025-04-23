@@ -1,0 +1,44 @@
+{% extends 'pages/includes/base.html' %}
+{% block title %}
+Lista de Disciplinas
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Lista de Disciplinas</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover shadow-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center">Nome da Disciplina</th>
+                    <th class="text-center">Professor</th>
+                    <th class="text-center">Média</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in disciplinas_com_media %}
+                <tr>
+                    <td class="text-center">
+                        <a href="{% url 'detalhe_disciplina' item.disciplina.id %}" class="text-primary">
+                            {{ item.disciplina.nome }}
+                        </a>
+                    </td>
+                    <td class="text-center">{{ item.disciplina.professor }}</td>
+                    <td class="text-center">
+                        {% if item.media != 'Sem notas' %}
+                        {{ item.media }}
+                        {% else %}
+                        <span class="text-muted">Sem notas</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if not disciplinas_com_media %}
+    <div class="alert alert-info text-center" role="alert">
+        Nenhuma disciplina encontrada.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
