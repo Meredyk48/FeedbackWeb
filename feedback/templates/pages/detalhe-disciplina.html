@@ -60,6 +60,13 @@ Detalhe disciplina - {{ disciplinas.nome }}
             {% for feedback in feedbacks %}
             <li class="list-group-item d-flex justify-content-between">
                 <div>
+                    <strong>Aluno:</strong> {{ feedback.usuario }}
+                    </br>
+                    {% if feedback.comentario %}
+                    <strong>Comentário:</strong> {{ feedback.comentario }}
+                    <br>
+                    {% endif %}
+
                     <div class="star-rating-display" data-rating="{{ feedback.nota }}">
                         <i class="bi bi-star"></i>
                         <i class="bi bi-star"></i>
@@ -67,11 +74,6 @@ Detalhe disciplina - {{ disciplinas.nome }}
                         <i class="bi bi-star"></i>
                         <i class="bi bi-star"></i>
                     </div>
-                    {% if feedback.comentario %}
-                    <strong>Comentário:</strong> {{ feedback.comentario }}
-                    <br>
-                    {% endif %}
-                    <strong>usuario:</strong> {{ feedback.usuario }}
                 </div>
                 <div class="align-self-center">
                     {% if request.user == feedback.usuario %}
